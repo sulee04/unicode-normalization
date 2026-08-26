@@ -1,51 +1,27 @@
 # unicode-normalization
 
-[![Build Status](https://travis-ci.org/unicode-rs/unicode-normalization.svg)](https://travis-ci.org/unicode-rs/unicode-normalization)
-[![Docs](https://docs.rs/unicode-normalization/badge.svg)](https://docs.rs/unicode-normalization/)
-
-Unicode character composition and decomposition utilities
-as described in
+Unicode Normalization Forms conformance workspace, implementing
 [Unicode Standard Annex #15](http://www.unicode.org/reports/tr15/).
 
-This crate requires Rust 1.36+.
+`src/lib.rs` declares the minimal public API — `to_nfd`, `to_nfkd`, `to_nfc`,
+`to_nfkc`, `is_nfd`, `is_nfkd`, `is_nfc`, `is_nfkc` — with `todo!()` bodies to
+be implemented. `tests/tests.rs` checks an implementation against the
+official Unicode `NormalizationTest.txt` conformance suite
+(`tests/data/normalization_tests.rs`).
 
 ```rust
-extern crate unicode_normalization;
-
-use unicode_normalization::char::compose;
-use unicode_normalization::UnicodeNormalization;
+use unicode_normalization::to_nfc;
 
 fn main() {
-    assert_eq!(compose('A','\u{30a}'), Some('Å'));
-
-    let s = "ÅΩ";
-    let c = s.nfc().collect::<String>();
-    assert_eq!(c, "ÅΩ");
+    assert_eq!(to_nfc("A\u{30a}"), "\u{c5}");
 }
 ```
 
-## crates.io
-
-You can use this package in your project by adding the following
-to your `Cargo.toml`:
-
-```toml
-[dependencies]
-unicode-normalization = "0.1.25"
-```
-
-## `no_std` + `alloc` support
-
-This crate is completely `no_std` + `alloc` compatible. This can be enabled by disabling the `std` feature, i.e. specifying `default-features = false` for this crate on your `Cargo.toml`.
-
-## Note about MSRV
-
-Dependencies' MSRVs evolve independently of this crate's MSRV.
-Old versions of cargo will always try to get the most recent versions of the dependencies.
-Therefore, if you are having troubles compiling on an old Rust version, try to install an older version of the incompatible dependency.
-
-For instance, to compile on Rust 1.36, `tinyvec` must be `<=1.6.0`
+Character property data (combining classes, decomposition/composition
+tables, etc.), generated from the Unicode Character Database by
+`scripts/unicode.py`, is available in `src/tables.rs` via the accessors in
+`src/lookups.rs`.
 
 ```sh
-cargo update -p tinyvec --precise 1.6.0
+cargo test
 ```
