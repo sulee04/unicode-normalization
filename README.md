@@ -2,6 +2,8 @@
 
 This is a fork of `unicode-rs/unicode-normalization` specially tailored for benckmarking an LLM's spec conformability.
 
+You would need to remove `tests/`, `.git/`, and optionally this file to run the test without adding additional source of information.
+
 To run:
 
 ```
