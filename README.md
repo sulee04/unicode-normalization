@@ -1,4 +1,16 @@
-# unicode-normalization
+# `unicode-normalization` test suite
+
+This is a fork of `unicode-rs/unicode-normalization` specially tailored for benckmarking an LLM's spec conformability.
+
+To run:
+
+```
+cargo test --test tests -- --no-capture 2>&1 | grep "pass rate"
+```
+
+to check the pass rate of an implementation.
+
+## Origianl unicode-normalization
 
 Unicode Normalization Forms conformance workspace, implementing
 [Unicode Standard Annex #15](http://www.unicode.org/reports/tr15/).
